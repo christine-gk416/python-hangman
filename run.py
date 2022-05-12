@@ -5,13 +5,18 @@ secretWord = choice(['compose','assignment','weave','filter','swell','baby','pro
 
 name = input("What is your name? ")
 # Here the user is asked to enter the name first
- 
-print("Good Luck! ", name)
+
 
 def playGame():
+
+    print(f"Good Luck! {name}")
+    
+    print("Let's play Hangman!")
     lettersGuessed = ''
     # the number of turns before player loses
-    failureCount = 12
+    failureCount = 6
+    print(display_hangman(failureCount))
+
     while failureCount > 0:
         guess = input('Enter a letter: ')
 
@@ -20,6 +25,7 @@ def playGame():
         else:
             failureCount -= 1
             print(f'Incorrect. There are no {guess} in secret word. {failureCount} turn(s) left.')
+            print(display_hangman(failureCount))
         
         lettersGuessed = lettersGuessed + guess
         wrongLetterCount = 0
@@ -40,4 +46,84 @@ def playGame():
         print(f'Sorry you did not win, but try again.')
 
 
-playGame()
+def display_hangman(failureCount):
+    stages = [  # final state: head, torso, both arms, and both legs
+                """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|/
+                   |      |
+                   |     / \\
+                   -
+                """,
+                # head, torso, both arms, and one leg
+                """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|/
+                   |      |
+                   |     / 
+                   -
+                """,
+                # head, torso, and both arms
+                """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|/
+                   |      |
+                   |      
+                   -
+                """,
+                # head, torso, and one arm
+                """
+                   --------
+                   |      |
+                   |      O
+                   |     \\|
+                   |      |
+                   |     
+                   -
+                """,
+                # head and torso
+                """
+                   --------
+                   |      |
+                   |      O
+                   |      |
+                   |      |
+                   |     
+                   -
+                """,
+                # head
+                """
+                   --------
+                   |      |
+                   |      O
+                   |    
+                   |      
+                   |     
+                   -
+                """,
+                # initial empty state
+                """
+                   --------
+                   |      |
+                   |      
+                   |    
+                   |      
+                   |     
+                   -
+                """
+    ]
+    return stages[failureCount]
+
+def main():
+    playGame()
+    while input("Play Again? (Y/N) ").upper() == "Y":
+        
+        playGame()
+
+main()
